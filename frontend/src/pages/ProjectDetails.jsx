@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../services/api";
+import "./ProjectDetails.css";
 
 const ProjectDetails = () => {
     const { id } = useParams();
@@ -42,41 +43,43 @@ const ProjectDetails = () => {
     }
 
     return (
-        <div>
-            <h1>{project.name}</h1>
+        <div className="project-details">
+            <div className="project-header">
+                <h1>{project.name}</h1>
 
-            <p>{project.description}</p>
+                <p>{project.description}</p>
+            </div>
 
-            <hr />
+            <div className="project-tasks">
+                <h2>Project Tasks</h2>
 
-            <h2>Project Tasks</h2>
+                {tasks.length === 0 ? (
+                    <p className="no-tasks">
+                        No tasks found for this project.
+                    </p>
+                ) : (
+                    tasks.map((task) => (
+                        <div className="task-card" key={task._id}>
+                            <h3>{task.title}</h3>
 
-            {tasks.length === 0 ? (
-                <p>No tasks found for this project.</p>
-            ) : (
-                tasks.map((task) => (
-                    <div key={task._id}>
-                        <h3>{task.title}</h3>
+                            <p>{task.description}</p>
 
-                        <p>{task.description}</p>
+                            <p>Status: {task.status}</p>
 
-                        <p>Status: {task.status}</p>
+                            <p>Priority: {task.priority}</p>
 
-                        <p>Priority: {task.priority}</p>
-
-                        <p>
-                            Due Date:{" "}
-                            {task.dueDate
-                                ? new Date(
-                                      task.dueDate
-                                  ).toLocaleDateString()
-                                : "No due date"}
-                        </p>
-
-                        <hr />
-                    </div>
-                ))
-            )}
+                            <p>
+                                Due Date:{" "}
+                                {task.dueDate
+                                    ? new Date(
+                                          task.dueDate
+                                      ).toLocaleDateString()
+                                    : "No due date"}
+                            </p>
+                        </div>
+                    ))
+                )}
+            </div>
         </div>
     );
 };

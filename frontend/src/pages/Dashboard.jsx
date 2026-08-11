@@ -5,16 +5,15 @@ import Sidebar from "../components/Sidebar";
 import Navbar from "../components/Navbar";
 import Toast from "../components/Toast";
 import "./Dashboard.css";
+
 const getErrorMessage = (error, fallback) => {
   return error.response?.data?.message || fallback;
 };
-
 
 const Dashboard = () => {
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-
 
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
@@ -36,7 +35,6 @@ const Dashboard = () => {
     try {
       const response = await api.get("/projects");
       setProjects(response.data.projects);
-      setMessage("");
     } catch (error) {
       setMessage(
         getErrorMessage(error, "Failed to load projects")
@@ -69,6 +67,7 @@ const Dashboard = () => {
 
     loadDashboard();
   }, []);
+
   useEffect(() => {
     if (!message) return;
 
@@ -78,8 +77,10 @@ const Dashboard = () => {
 
     return () => clearTimeout(timer);
   }, [message]);
+
   const handleCreateProject = async (e) => {
     e.preventDefault();
+
     if (!name.trim()) {
       setMessage("Project name is required");
       return;
@@ -105,6 +106,7 @@ const Dashboard = () => {
 
   const handleCreateTask = async (e) => {
     e.preventDefault();
+
     if (!title.trim()) {
       setMessage("Task title is required");
       return;
@@ -203,6 +205,7 @@ const Dashboard = () => {
 
     try {
       await api.delete(`/projects/${projectId}`);
+
       setMessage("Project deleted successfully!");
 
       getProjects();
@@ -228,6 +231,7 @@ const Dashboard = () => {
         ? true
         : task.priority === priorityFilter
     );
+
   if (loading) {
     return (
       <div className="loading-screen">
@@ -240,6 +244,7 @@ const Dashboard = () => {
   return (
     <div className="dashboard-layout">
       <Sidebar />
+
       <Navbar
         onLogout={() => {
           localStorage.removeItem("token");
@@ -251,7 +256,6 @@ const Dashboard = () => {
         <h1>Dashboard</h1>
 
         <Toast message={message} />
-
 
         <section className="dashboard-section">
           <h2>Create Project</h2>
@@ -288,7 +292,6 @@ const Dashboard = () => {
             </button>
           </form>
         </section>
-
 
         <section className="dashboard-section">
           <h2>My Projects</h2>
@@ -330,7 +333,6 @@ const Dashboard = () => {
             </div>
           )}
         </section>
-
 
         <section className="dashboard-section">
           <h2>Create Task</h2>
@@ -431,7 +433,6 @@ const Dashboard = () => {
           </form>
         </section>
 
-
         <section className="dashboard-section">
           <h2>My Tasks</h2>
 
@@ -497,8 +498,8 @@ const Dashboard = () => {
                     <strong>Due Date:</strong>{" "}
                     {task.dueDate
                       ? new Date(
-                        task.dueDate
-                      ).toLocaleDateString()
+                          task.dueDate
+                        ).toLocaleDateString()
                       : "No due date"}
                   </p>
 
