@@ -1,20 +1,15 @@
 const Project = require("../models/Project");
 
-// ==========================
-// Create Project
-// ==========================
 const createProject = async (req, res) => {
   try {
     const { name, description } = req.body;
 
-    // Check project name
     if (!name) {
       return res.status(400).json({
         message: "Project name is required",
       });
     }
 
-    // Create project for logged-in user
     const project = await Project.create({
       name,
       description,
@@ -33,9 +28,6 @@ const createProject = async (req, res) => {
   }
 };
 
-// ==========================
-// Get All Projects
-// ==========================
 const getProjects = async (req, res) => {
   try {
     const projects = await Project.find({
@@ -53,9 +45,6 @@ const getProjects = async (req, res) => {
   }
 };
 
-// ==========================
-// Get Single Project
-// ==========================
 const getProject = async (req, res) => {
   try {
     const project = await Project.findOne({
@@ -80,8 +69,6 @@ const getProject = async (req, res) => {
   }
 };
 
-
-// Update Project
 const updateProject = async (req, res) => {
   try {
     const { name, description } = req.body;
@@ -118,9 +105,6 @@ const updateProject = async (req, res) => {
     });
   }
 };
-
-
-// Delete Project
 
 const deleteProject = async (req, res) => {
   try {
